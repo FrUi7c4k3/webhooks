@@ -38,31 +38,20 @@ npm run dev:sender
 
 The sender will listen on `http://localhost:3001`.
 
-## Manual Test Scenario
+## 🧪 Manual Testing
 
-1. Start the receiver and sender in separate terminals.
-2. Create a subscription using the sender:
-   ```bash
-   curl -X POST http://localhost:3001/subscriptions \
-     -H "Content-Type: application/json" \
-     -d '{"callbackUrl":"http://localhost:3000/webhook","events":["item.created"],"secret":"your-shared-secret-key"}'
-   ```
-3. Trigger an event from the sender:
-   ```bash
-   curl -X POST http://localhost:3001/events \
-     -H "Content-Type: application/json" \
-     -d '{"event":"item.created","data":{"itemId":"abc-123"}}'
-   ```
-4. Verify the receiver logged the webhook and returned `status: received`.
+Manual test scenarios are defined in the REST Client file:
 
-### Expected result
+- [end-to-end.test.http](./test/manual-testing/end-to-end.test.http)
 
-- Sender responds with a payload delivery result.
-- Receiver receives the webhook at `/webhook`.
-- The receiver returns:
-  ```json
-  { "status": "received" }
-  ```
+Use the VS Code REST Client extension to execute the requests.
+
+The file includes:
+- Subscription creation
+- Event triggering
+- Expected results and behaviour
+
+---
 
 ## Running Tests
 

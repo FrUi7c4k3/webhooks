@@ -1,0 +1,55 @@
+# ==================================================
+# Prerequisites – Start Services
+# ==================================================
+#
+# Start receiver:
+#   Open a terminal and run:
+#     npm run dev:receiver
+#   The receiver will listen on:
+#     http://localhost:3000
+#
+# Start sender:
+#   Open another terminal and run:
+#     npm run dev:sender
+#   The sender will listen on:
+#     http://localhost:3001
+#
+# ==================================================
+
+
+### Create Subscription
+POST http://localhost:3001/subscriptions
+Content-Type: application/json
+
+{
+  "callbackUrl": "http://localhost:3000/webhook",
+  "events": ["item.created"],
+  "secret": "your-shared-secret-key"
+}
+
+###
+
+### Trigger Event
+POST http://localhost:3001/events
+Content-Type: application/json
+
+{
+  "event": "item.created",
+  "data": {
+    "itemId": "abc-123"
+  }
+}
+
+# ==================================================
+# Expected Result
+# ==================================================
+#
+# - Sender responds with a payload delivery result
+# - Receiver receives the webhook at:
+#     http://localhost:3000/webhook
+# - Receiver logs the request
+# - Receiver responds with:
+#
+#   { "status": "received" }
+#
+# ==================================================
