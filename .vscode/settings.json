@@ -1,0 +1,9 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "&": true,
+        "/^& \"C:\\\\Program Files\\\\nodejs\\\\npm\\.cmd\" test$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

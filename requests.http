@@ -1,0 +1,64 @@
+### Webhook Receiver Test Client
+
+# Valid signature - should return 200
+POST http://localhost:3000/webhook
+Content-Type: application/json
+X-Webhook-Signature: e73d5219016ffe8ebb6eee3861c2aec3f9da1a643da4eb425e427e373654032d
+
+{
+  "id": "webhook-123",
+  "event": "item.created",
+  "timestamp": "2026-05-02T07:53:46.038Z",
+  "data": {
+    "itemId": "abc-456",
+    "name": "Test Item"
+  }
+}
+
+###
+
+# Invalid signature - should return 401
+POST http://localhost:3000/webhook
+Content-Type: application/json
+X-Webhook-Signature: invalid-signature-12345
+
+{
+  "id": "webhook-123",
+  "event": "item.created",
+  "timestamp": "2026-05-02T07:53:46.038Z",
+  "data": {
+    "itemId": "abc-456",
+    "name": "Test Item"
+  }
+}
+
+###
+
+# Missing signature header - should return 401
+POST http://localhost:3000/webhook
+Content-Type: application/json
+
+{
+  "id": "webhook-123",
+  "event": "item.created",
+  "timestamp": "2026-05-02T07:53:46.038Z",
+  "data": {
+    "itemId": "abc-456",
+    "name": "Test Item"
+  }
+}
+
+###
+
+# Invalid payload (missing event) - should return 400
+POST http://localhost:3000/webhook
+Content-Type: application/json
+X-Webhook-Signature: e73d5219016ffe8ebb6eee3861c2aec3f9da1a643da4eb425e427e373654032d
+
+{
+  "id": "webhook-123",
+  "timestamp": "2026-05-02T07:53:46.038Z",
+  "data": {
+    "itemId": "abc-456"
+  }
+}
